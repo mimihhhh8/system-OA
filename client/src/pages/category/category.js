@@ -207,7 +207,7 @@ export default class  extends Component {
           onCancel={this.modalHandleCancel}
           confirmLoading={confirmLoading}
           >
-          <AddForm categoryList={categoryList} currentRowData={currentRowData} setForm={(form)=>{this.form=form}}/>
+          <AddForm categoryList={categoryList} currentRowData={currentRowData} setForm={(form)=>{this.form=form;console.log(form)}}/>
         </Modal>
         <Modal
           title="修改分类"

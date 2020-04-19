@@ -27,7 +27,7 @@ const Houselist = lazy(() => import('../houselist'))
 const Line = lazy(() => import('../charts/line'))
 const Pie = lazy(() => import('../charts/pie'))
 const Bar = lazy(() => import('../charts/bar'))
-const GitHub = lazy(() => import('../github'))
+// const GitHub = lazy(() => import('../github'))
 const Order = lazy(() => import('../order'))
 const Drag = lazy(() => import('../drag'))
 const FileUpload = lazy(() => import('../hooks/fileUpload'))
@@ -74,7 +74,7 @@ class Admin extends Component {
                 <AuthRouter path='/charts/line' component={Line}/>
                 <AuthRouter path='/charts/pie' component={Pie}/>
                 <AuthRouter path='/order' component={Order}/>
-                <AuthRouter path='/GitHub' component={GitHub}/>
+                {/* <AuthRouter path='/GitHub' component={GitHub}/> */}
                 <AuthRouter path='/drag' component={Drag}/>
                 <AuthRouter path='/hooks/slice' component={FileUpload}/>
                 <AuthRouter path='/hooks/myslice' component={HooksMySlice}/>

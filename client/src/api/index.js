@@ -115,7 +115,7 @@ export const handlecancleApi=(data)=>request('/manage/cancle','post',data)
 // 为申请人分配销售员
 export const addfenpei=(data)=>request('/manage/addfp','GET',data)
 
-// 搜索产品
+// 搜索
 export const reqSearchProduct=(data)=>request('/manage/product/search','GET',data)
 
 

@@ -3,12 +3,14 @@ import {Form,Select,Input} from 'antd'
 import PropTypes from 'prop-types'
 const { Option } = Select;
 class addForm extends Component {
+  // 设置props的类型:categoryList规定为array类型，isRequeired是说明该值不能为空，必须传递如果为空，会有个提示
   static propTypes={
     categoryList:PropTypes.array.isRequired,
     setForm:PropTypes.func.isRequired,
     currentRowData:PropTypes.object.isRequired //父级分类id
   }
   componentDidMount(){
+    console.log(this.props.form)
     this.props.setForm(this.props.form)
   }
   render() {

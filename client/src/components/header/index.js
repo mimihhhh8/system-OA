@@ -97,8 +97,9 @@ class HeaderSelf extends Component {
     return (
       <div className='header'>
         <div className='header-top'>
-          <span>欢迎您，{userInfo.username}</span>
-          <Button type='link' onClick={this.exitConfirm}>退出</Button>
+        {/* <span className='itemName'>房屋租赁管理系统</span> */}
+          <span>欢迎您：{userInfo.username}</span>
+          <Button type='link' onClick={this.exitConfirm}>退出登录</Button>
         </div>
 
         <div className='header-buttom'>

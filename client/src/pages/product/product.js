@@ -5,7 +5,7 @@ import {reqProductList,reqSearchProduct,reqDeleteProduct,reqProductStatus} from 
 import {formatNumber} from '../../utils/common'
 const { Option } = Select;
 const { Text } = Typography;
-const PAGE_SIZE = 2
+const PAGE_SIZE = 5
 const btnStyle={
   marginLeft:'0.5rem'
 }
@@ -121,24 +121,27 @@ class Product extends Component {
     })
   }
   // 搜索
-  // searchBtn= async (e)=>{
-  //   e.stopPropagation();
-  //   const {selectValue,inputValue}=this.state
-  //   if( !inputValue || !inputValue.trim()){
-  //     this.setState({inputValue:null})
-  //     message.warning('不能为空')
-  //     return
-  //   }
-  //   this.setState({loading:true})
-  //   const params={
-  //     pageNum,pageSize:PAGE_SIZE
-  //   }
-  //   selectValue==='1'?params.productName=inputValue:params.productDesc=inputValue
-  //   const res = await reqSearchProduct(params)
-  //   const {list,total}=res.data
-  //   if(!list[0]){message.warn('搜索结果为空！')}
-  //   this.setState({total,productListSource:list,loading:false})
-  // }
+  searchBtn= async (e)=>{
+    console.log(12)
+    e.stopPropagation();
+    const {selectValue,inputValue}=this.state
+    if( !inputValue || !inputValue.trim()){
+      this.setState({inputValue:null})
+      message.warning('不能为空')
+      return
+    }
+    this.setState({loading:true})
+    const params={
+      // pageNum,
+      pageSize:PAGE_SIZE
+    }
+    selectValue==='1'?params.productName=inputValue:params.productDesc=inputValue
+    console.log(params)
+    const res = await reqSearchProduct(params)
+    const {list,total}=res.data
+    if(!list[0]){message.warn('搜索结果为空！')}
+    this.setState({total,productListSource:list,loading:false})
+  }
   // 添加房屋
   addProductBtn=(e)=>{
     e.stopPropagation()

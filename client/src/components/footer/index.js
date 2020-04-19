@@ -11,7 +11,7 @@ export default class extends Component {
   render() {
     return (
       <div>
-        Made with ❤ by XT  <LinkA params={this.state.params}/>
+         {/* <LinkA params={this.state.params}/> */}
       </div>
     );
   }

@@ -8,7 +8,7 @@ import moment from 'moment'
 import _ from "lodash"
 const { Option } = Select;
 const { Text } = Typography;
-const PAGE_SIZE = 2
+const PAGE_SIZE = 6
 const btnStyle = {
   marginLeft: '0.5rem'
 }
@@ -197,7 +197,7 @@ class Product extends Component {
     return (
       <Card title={title()} extra={addComponment()}>
         <Table size='small' dataSource={productListSource} columns={this.columns} rowKey={'_id'} bordered
-          loading={tableLoading}
+          // loading={tableLoading}
           pagination={{
             current: this.pageNum,
             total,

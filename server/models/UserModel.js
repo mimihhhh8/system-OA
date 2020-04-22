@@ -1,7 +1,7 @@
 /*
 能操作users集合数据的Model
  */
-// 1.引入mongoose
+// 1.引入mongoose  
 const mongoose = require('mongoose')
 const md5 = require('blueimp-md5')
 

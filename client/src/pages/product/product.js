@@ -122,9 +122,9 @@ class Product extends Component {
   }
   // 搜索
   searchBtn= async (e)=>{
-    console.log(12)
     e.stopPropagation();
     const {selectValue,inputValue}=this.state
+    console.log(selectValue,inputValue)
     if( !inputValue || !inputValue.trim()){
       this.setState({inputValue:null})
       message.warning('不能为空')
@@ -132,11 +132,10 @@ class Product extends Component {
     }
     this.setState({loading:true})
     const params={
-      // pageNum,
+      pageNum:this.state.pageNum,
       pageSize:PAGE_SIZE
     }
     selectValue==='1'?params.productName=inputValue:params.productDesc=inputValue
-    console.log(params)
     const res = await reqSearchProduct(params)
     const {list,total}=res.data
     if(!list[0]){message.warn('搜索结果为空！')}
@@ -150,6 +149,7 @@ class Product extends Component {
   // 房屋列表
   getProductList= async(pageNum)=>{
     const {inputValue} = this.state
+    console.log(inputValue)
     this.pageNum=pageNum //保存全局，状态更新的时候能够定位到当前页
     this.setState({
       tableLoading:true,
@@ -159,7 +159,7 @@ class Product extends Component {
       this.setState({
         btnLoading:true,
       })
-       res= await reqSearchProduct({pageNum,pageSize: PAGE_SIZE})
+       res= await reqSearchProduct({pageNum,pageSize: PAGE_SIZE,productName:inputValue,productDesc:inputValue})
     }else{ //全部房屋列表
        res= await reqProductList({pageNum,pageSize:PAGE_SIZE})
     }
@@ -192,7 +192,7 @@ class Product extends Component {
        <Option value="2">按描述搜索</Option>
        </Select>
       <Input style={{width:200,marginLeft:6,marginRight:6}}  placeholder={inputPlaceholder} onChange={this.inputValue} value={inputValue} />
-      <Button type='primary' style={{transform:'scale(1)'}} onClick={()=>this.getProductList(1)} loading={btnLoading}>搜索</Button>
+      <Button type='primary' style={{transform:'scale(1)'}} onClick={(e)=>this.searchBtn(e)} loading={btnLoading}>搜索</Button>
        </div>
       )
     }

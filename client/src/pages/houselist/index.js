@@ -6,7 +6,7 @@ import {formatNumber} from '../../utils/common'
 import _ from "lodash"
 const { Option } = Select;
 const { Text } = Typography;
-const PAGE_SIZE = 2
+const PAGE_SIZE = 6
 const btnStyle={
   marginLeft:'0.5rem'
 }
@@ -41,9 +41,9 @@ class Product extends Component {
       },
       {
         title: '状态',
-        render:(record)=>(<span><Text type={"danger"} >{record.status?'未租':'未租'}</Text><Button size='small' style={btnStyle} loading={loading}
-          onClick={()=>this.预约_取消预约(record)}
-          type='primary'>{record.status?'预约看房':'预约看房'}</Button></span>
+        render:(record)=>(<span><Text type={"danger"} >{record.status?'未租':'已租'}</Text><Button size='small' style={btnStyle} loading={loading}
+          onClick={()=>this.预约看房(record)}
+          type='primary'>预约看房</Button></span>
           )
       },
       {
@@ -61,7 +61,7 @@ class Product extends Component {
   // 上架
   //  const {productId, status} = req.body
   // 下架 用中文没毛病 维持好就行 0 下架 1上架
-  预约_取消预约= async (product)=>{
+ 预约看房 = async (product)=>{
     this.setState({loading:true})
     const params={
       productId:product._id,
@@ -69,18 +69,14 @@ class Product extends Component {
       yhId:JSON.parse(localStorage.getItem("user_key"))._id,
       applty_pop:JSON.parse(localStorage.getItem("user_key")).username,
       applty_phone:JSON.parse(localStorage.getItem("user_key")).phone,
+      orderstatus:1
       
     }
-    if(product.orderstatus){
-      params.orderstatus=0
-    }else{
-      params.orderstatus=1
-    }
-    console.log(params)
     const res= await reqProductOrderStatus(params)
-    if(res.orderstatus===0){
+    if(res.status===0){
+      debugger
       this.setState({loading:false})
-      message.success('更新成功haha！')
+      message.success('预约成功！')
       this.getProductList(this.pageNum)
     }
   }

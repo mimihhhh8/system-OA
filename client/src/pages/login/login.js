@@ -46,7 +46,7 @@ class Login extends Component {
         </div>
         <div className='content'>
           <section className='login-form'>
-          <div className='login-label'> <span >管理平台</span></div>
+          <div className='login-label'> <span >房屋租赁系统</span></div>
           <Form onSubmit={this.handleSubmit} className="">
           <Form.Item>
           {getFieldDecorator('username', {
@@ -87,7 +87,7 @@ class Login extends Component {
         </div>
         <div className='footer'>
           <div className='content'>
-             Made with ❤ by XT&nbsp;<LinkA params={this.state.params}/>
+             {/* Made with ❤ by XT&nbsp;<LinkA params={this.state.params}/> */}
           </div>  
         </div>
       </div>

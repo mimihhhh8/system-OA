@@ -76,7 +76,9 @@ class Product extends Component {
       },
     ];
   }
-
+  componentDidMount() {
+    this.getProductList(1)
+  }
   /* 
     @params "5e917f955bdf781de46e6cff"
   */
@@ -131,17 +133,17 @@ class Product extends Component {
     }
     const { total, list } = res.data
     if (res.status === 0 && list.length > 0) {
-      // 格式化金额
-      list.forEach(item => {
-        item.price = formatNumber(item.price)
-      })
-      console.log(list)
       this.setState({
         total,
         productListSource: _.filter(list, function(o) { return o.applty_pop===act_type.apply_name;}),
         tableLoading: false,
         btnLoading: false
       })
+      // 格式化金额
+      list.forEach(item => {
+        item.price = formatNumber(item.price)
+      })
+      console.log(list)
     }else{
       this.setState({
         tableLoading: false,
@@ -167,53 +169,50 @@ class Product extends Component {
       sale_name:e.target.value
     })
   }
-  componentDidMount() {
-    this.getProductList(1)
-  }
   render() {
     const { tableLoading, productListSource, total, btnLoading, inputPlaceholder, inputValue } = this.state
-    const title = () => {
-      return (
-        <div>
-          <Select defaultValue="1"
-            style={{ width: '7rem' }}
-            onChange={this.selectHandleChange}>
-            <Option value="1">按名称搜索</Option>
-            <Option value="2">按描述搜索</Option>
-          </Select>
-          <Input style={{ width: 200, marginLeft: 6, marginRight: 6 }} placeholder={inputPlaceholder} onChange={this.inputValue} value={inputValue} />
-          <Button type='primary' style={{ transform: 'scale(1)' }} onClick={() => this.getProductList(1)} loading={btnLoading}>搜索</Button>
-          <Modal
-            title="Basic Modal"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={() => { this.setState({ visible: false }) }}
-          >
-            <Radio.Group defaultValue="" buttonStyle="solid" onChange={this.handleSaleName}>
-              {this.state.saleList.map((item,index)=>(
-              <Radio.Button value={item.username} key={index}>{item.username}</Radio.Button>
-              ))}
-            </Radio.Group>
-          </Modal>
-        </div>
-      )
-    }
-    const addComponment = () => (
-      <span>
-      </span>
-    )
+    // const title = () => {
+    //   return (
+    //     <div>
+    //       <Select defaultValue="1"
+    //         style={{ width: '7rem' }}
+    //         onChange={this.selectHandleChange}>
+    //         <Option value="1">按名称搜索</Option>
+    //         <Option value="2">按描述搜索</Option>
+    //       </Select>
+    //       <Input style={{ width: 200, marginLeft: 6, marginRight: 6 }} placeholder={inputPlaceholder} onChange={this.inputValue} value={inputValue} />
+    //       <Button type='primary' style={{ transform: 'scale(1)' }} onClick={() => this.getProductList(1)} loading={btnLoading}>搜索</Button>
+    //       <Modal
+    //         title="Basic Modal"
+    //         visible={this.state.visible}
+    //         onOk={this.handleOk}
+    //         onCancel={() => { this.setState({ visible: false }) }}
+    //       >
+    //         <Radio.Group defaultValue="" buttonStyle="solid" onChange={this.handleSaleName}>
+    //           {this.state.saleList.map((item,index)=>(
+    //           <Radio.Button value={item.username} key={index}>{item.username}</Radio.Button>
+    //           ))}
+    //         </Radio.Group>
+    //       </Modal>
+    //     </div>
+    //   )
+    // }
+    // const addComponment = () => (
+    //   <span>
+    //   </span>
+    // )
 
     return (
-      <Card title={title()} extra={addComponment()}>
+      <Card>
         <Table size='small' dataSource={productListSource} columns={this.columns} rowKey={'_id'} bordered
           loading={tableLoading}
-          pagination={{
-            current: this.pageNum,
-            total,
-            defaultPageSize: PAGE_SIZE,
-            showQuickJumper: true,
-            onChange: this.getProductList,
-          }}
+          // pagination={{
+          //   current: this.pageNum,
+          //   total,
+          //   defaultPageSize: PAGE_SIZE,
+          //   showQuickJumper: true,
+          //   onChange: this.getProductList,
+          // }}
         />
       </Card>
     );

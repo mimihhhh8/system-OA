@@ -382,12 +382,13 @@ router.post('/manage/product/updateStatus', (req, res) => {
 // 房屋预约
 router.post('/manage/product/updateOrderStatus', (req, res) => {
   const { productId, yhId, orderstatus,seehouse_add,applty_pop,applty_phone} = req.body
-  ProductModel.findOneAndUpdate({ _id: productId }, { orderstatus })
+  console.log(req.body)
+  ProductModel.findOneAndUpdate({ _id: productId }, { orderstatus})
 
     .then(_ => {
       UserModel.findOneAndUpdate({_id:yhId},{yyfw_id:productId}).then(_=>{
         FpModel.create({productId,seehouse_add,applty_pop,applty_phone,apply_time:Date.now()}).then(_=>{
-          res.send({ orderstatus: 0 })
+          res.send({ status: 0 })
         })
       })
      

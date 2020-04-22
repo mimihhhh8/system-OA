@@ -64,17 +64,20 @@ class Product extends Component {
         render: (record) => (<span><Text type={"danger"} >{record.status ? '已分配' : '未分配'}</Text></span>
         )
       },
-      {
-        title: '操作',
-        render: (record) => (
-          <Button type="link"
-            // disabled={record.status}
-            onClick={() => (
-              this.handleCancle(record)
-            )}>结束看房</Button>
-        )
-      },
+      // {
+      //   title: '操作',
+      //   render: (record) => (
+      //     <Button type="link"
+      //       // disabled={record.status}
+      //       onClick={() => (
+      //         this.handleCancle(record)
+      //       )}>结束看房</Button>
+      //   )
+      // },
     ];
+  }
+  componentDidMount() {
+    this.getProductList(1)
   }
 
   /* 
@@ -111,37 +114,34 @@ class Product extends Component {
       tableLoading: true,
     })
     let res;
-    if (inputValue) { //搜索房屋列表
-      this.setState({
-        btnLoading: true,
-      })
-      res = await reqSearchProduct({ pageNum, pageSize: PAGE_SIZE })
-    } else { //全部房屋列表
+    // if (inputValue) { //搜索房屋列表
+    //   this.setState({
+    //     btnLoading: true,
+    //   })
+    //   res = await reqSearchProduct({ pageNum, pageSize: PAGE_SIZE })
+    // } else { //全部房屋列表
+    // }
       res = await reqFpList({ pageNum, pageSize: PAGE_SIZE })
-    }
-    const { total, list } = res.data
-    if (res.status === 0 && list.length > 0) {
-      console.log(123)
-      // 格式化金额
-      list.forEach(item => {
-        item.price = formatNumber(item.price)
-      })
-      console.log(act_type.sale_name)
-
-      this.setState({
-        total,
-        productListSource: _.filter(list, function(o) { return o.sale_name===act_type.sale_name;}),
-        tableLoading: false,
-        btnLoading: false
-      },()=>{
-        console.log(this.state.productListSource)
-      })
-    }else{
-      console.log(1111111111)
-      this.setState({
-        tableLoading: false
-      })
-    }
+      const { total, list } = res.data
+          this.setState({
+            total,
+            productListSource: _.filter(list, function(o) { return o.sale_name===act_type.sale_name;}),
+            tableLoading: false,
+            btnLoading: false
+          })
+          
+    // if (res.status === 0 && list.length > 0) {
+    //   console.log(123)
+    //   // 格式化金额
+    //   list.forEach(item => {
+    //     item.price = formatNumber(item.price)
+    //   })
+    //   console.log(act_type.sale_name)
+    // }else{
+    //   this.setState({
+    //     tableLoading: false
+    //   })
+    // }
   }
   // 模态框--分配销售员
   handleOk = async e => {
@@ -162,53 +162,51 @@ class Product extends Component {
       sale_name:e.target.value
     })
   }
-  componentDidMount() {
-    this.getProductList(1)
-  }
   render() {
     const { tableLoading, productListSource, total, btnLoading, inputPlaceholder, inputValue } = this.state
-    const title = () => {
-      return (
-        <div>
-          <Select defaultValue="1"
-            style={{ width: '7rem' }}
-            onChange={this.selectHandleChange}>
-            <Option value="1">按名称搜索</Option>
-            <Option value="2">按描述搜索</Option>
-          </Select>
-          <Input style={{ width: 200, marginLeft: 6, marginRight: 6 }} placeholder={inputPlaceholder} onChange={this.inputValue} value={inputValue} />
-          <Button type='primary' style={{ transform: 'scale(1)' }} onClick={() => this.getProductList(1)} loading={btnLoading}>搜索</Button>
-          <Modal
-            title="Basic Modal"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={() => { this.setState({ visible: false }) }}
-          >
-            <Radio.Group defaultValue="" buttonStyle="solid" onChange={this.handleSaleName}>
-              {this.state.saleList.map((item,index)=>(
-              <Radio.Button value={item.username} key={index}>{item.username}</Radio.Button>
-              ))}
-            </Radio.Group>
-          </Modal>
-        </div>
-      )
-    }
-    const addComponment = () => (
-      <span>
-      </span>
-    )
+    console.log(productListSource)
+    // const title = () => {
+    //   return (
+    //     <div>
+    //       <Select defaultValue="1"
+    //         style={{ width: '7rem' }}
+    //         onChange={this.selectHandleChange}>
+    //         <Option value="1">按名称搜索</Option>
+    //         <Option value="2">按描述搜索</Option>
+    //       </Select>
+    //       <Input style={{ width: 200, marginLeft: 6, marginRight: 6 }} placeholder={inputPlaceholder} onChange={this.inputValue} value={inputValue} />
+    //       <Button type='primary' style={{ transform: 'scale(1)' }} onClick={() => this.getProductList(1)} loading={btnLoading}>搜索</Button>
+    //       <Modal
+    //         title="Basic Modal"
+    //         visible={this.state.visible}
+    //         onOk={this.handleOk}
+    //         onCancel={() => { this.setState({ visible: false }) }}
+    //       >
+    //         <Radio.Group defaultValue="" buttonStyle="solid" onChange={this.handleSaleName}>
+    //           {this.state.saleList.map((item,index)=>(
+    //           <Radio.Button value={item.username} key={index}>{item.username}</Radio.Button>
+    //           ))}
+    //         </Radio.Group>
+    //       </Modal>
+    //     </div>
+    //   )
+    // }
+    // const addComponment = () => (
+    //   <span>
+    //   </span>
+    // )
 
     return (
-      <Card title={title()} extra={addComponment()}>
+      <Card>
         <Table size='small' dataSource={productListSource} columns={this.columns} rowKey={'_id'} bordered
           loading={tableLoading}
-          pagination={{
-            current: this.pageNum,
-            total,
-            defaultPageSize: PAGE_SIZE,
-            showQuickJumper: true,
-            onChange: this.getProductList,
-          }}
+          // pagination={{
+          //   current: this.pageNum,
+          //   total,
+          //   defaultPageSize: PAGE_SIZE,
+          //   showQuickJumper: true,
+          //   onChange: this.getProductList,
+          // }}
         />
       </Card>
     );

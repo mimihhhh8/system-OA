@@ -110,7 +110,7 @@ export const reqProductList=(data)=>request('/manage/product/list','GET',data)
 export const reqFpList=(data)=>request('/manage/fenpei/list','GET',data)
 // 获取销售员信息
 export const getFpData=(data)=>request('/manage/sale/list','GET',data)
-// cancle
+// cancle结束看房
 export const handlecancleApi=(data)=>request('/manage/cancle','post',data)
 // 为申请人分配销售员
 export const addfenpei=(data)=>request('/manage/addfp','GET',data)

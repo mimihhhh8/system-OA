@@ -13,7 +13,7 @@ class Product extends Component {
   state = {
     pageNum:1,
     selectValue: '1',
-    productListSource:[],
+    productListSource:[],//房源列表
     total:0,
     btnLoading:false,
     tableLoading:false,
@@ -45,7 +45,7 @@ class Product extends Component {
       {
         title: '状态',
         render:(record)=>(<span><Text type={record.status?'success':'danger'} >{record.status?'未租':'已租'}</Text><Button size='small' style={btnStyle} loading={loading}
-          onClick={()=>this.上架_下架(record)}
+          onClick={()=>this.handleHouseStatues(record)}
           type='primary'>{record.status?'出租房子':'收回房子'}</Button></span>
           )
       },
@@ -67,26 +67,14 @@ class Product extends Component {
       },
     ];
   }
-  // 上架
   //  const {productId, status} = req.body
-  // 下架 用中文没毛病 维持好就行 0 下架 1上架
-  上架_下架= async (product)=>{
+  
+  handleHouseStatues= async (product)=>{
     this.setState({loading:true})
     const params={
       productId:product._id,
     }
-    
-    // if(product.status){
-    //   params.status=0
-    // }else{
-    //   params.status=1
-    // }
-    // const res= await reqProductStatus(params)
-    // if(res.status===0){
-    //   this.setState({loading:false})
-    //   message.success('更新成功！')
-    //   this.getProductList(this.pageNum)
-    // }
+
   }
   productUpdate= async (record)=>{
     this.props.history.push('/product/add',record)
@@ -149,7 +137,6 @@ class Product extends Component {
   // 房屋列表
   getProductList= async(pageNum)=>{
     const {inputValue} = this.state
-    console.log(inputValue)
     this.pageNum=pageNum //保存全局，状态更新的时候能够定位到当前页
     this.setState({
       tableLoading:true,
@@ -164,6 +151,7 @@ class Product extends Component {
        res= await reqProductList({pageNum,pageSize:PAGE_SIZE})
     }
     const {total,list}=res.data
+    console.log(res.data)
     if (res.status === 0 && list.length > 0) {
       // 格式化金额
       list.forEach(item=>{
@@ -207,12 +195,6 @@ class Product extends Component {
        <Table size='small' dataSource={productListSource} columns={this.columns} rowKey={'_id'} bordered 
        loading={tableLoading}
        pagination={{
-        // current:currentSize,
-        // defaultCurrent:1,
-        // defaultPageSize:pageSize,
-        // hideOnSinglePage:false,//一页隐藏分页'
-        // pageSize,
-        // showQuickJumper:true,
         current: this.pageNum,
         total,
         defaultPageSize: PAGE_SIZE,

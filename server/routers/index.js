@@ -32,7 +32,6 @@ function generateToken(data) {
 
 // 得到路由器对象
 const router = express.Router()
-// console.log('router', router)
 
 // 指定需要过滤的属性
 const filter = { password: 0, __v: 0 }
@@ -199,7 +198,10 @@ router.get('/manage/category/list', (req, res) => {
   const parentId = req.query.parentId || '0'
   CategoryModel.find({ parentId }).sort({ "_id": -1 })
     .then(categorys => {
-      res.send({ status: 0, data: categorys })
+      res.send({ 
+        status: 0,
+        data: categorys 
+        })
     })
     .catch(error => {
       console.error('获取分类列表异常', error)
@@ -321,7 +323,6 @@ router.get('/manage/sale/list', (req, res) => {
 */
 router.get('/manage/addfp', (req, res) => {
   const {id,name}=req.query
-  console.log(id,name)
   FpModel.updateMany({_id:id},{$set:{sale_name:name,fp_time:Date.now(),status:1}},{multi:true})
     .then(add => {
       UserModel.update({ username: name }, { $push: { "fenpei_id": id } }).then(_=>{
@@ -382,7 +383,6 @@ router.post('/manage/product/updateStatus', (req, res) => {
 // 房屋预约
 router.post('/manage/product/updateOrderStatus', (req, res) => {
   const { productId, yhId, orderstatus,seehouse_add,applty_pop,applty_phone} = req.body
-  console.log(req.body)
   ProductModel.findOneAndUpdate({ _id: productId }, { orderstatus})
 
     .then(_ => {
@@ -441,7 +441,6 @@ router.post('/manage/role/update', (req, res) => {
   role.auth_time = Date.now()
   RoleModel.findOneAndUpdate({ _id: role._id }, role)
     .then(oldRole => {
-      // console.log('---', oldRole._doc)
       res.send({ status: 0, data: { ...oldRole._doc, ...role } })
     })
     .catch(error => {

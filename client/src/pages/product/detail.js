@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom'
 import {Card,List,Icon,Typography} from 'antd'
+import {reqCatagoryList} from 'api'
+import _ from 'lodash'
 const { Text } = Typography;
 const listStyle={fontSize:15,marginRight:'1rem'}
 class ProductDetail extends Component {
-  state = {  }
+  state = { 
+    flId:'',//分类id
+    zflId:'',//子分类id
+    flList:[],//分类信息
+    zflList:[],//子分类信息
+   }
   constructor(){
     super()
     this.title=(
@@ -13,6 +20,35 @@ class ProductDetail extends Component {
   }
   goBack=(e)=>{
     this.props.history.goBack()
+  }
+  componentDidMount(){
+    this.getFlData()
+  }
+  // 获取分类数据--
+   getFlData = async ()=>{
+     let  flId=this.props.location.state.pCategoryId
+     let zflId=this.props.location.state.categoryId
+     console.log(flId,zflId)
+     const {data} = await reqCatagoryList({flId})
+     if(flId!=='0'){
+      this.setState({flList:data}) //一级列表
+      console.log(this.state.flList)
+    }else{
+      this.setState({zflList:data}) //子列表
+      console.log(this.state.zflList)
+    }
+    // if(flId){
+    //   const {data} = await reqCatagoryList({flId})
+    //   // 分类名称
+    //   let singleFl=_.filter(data,{'_id':flId})[0].name
+    //   console.log(singleFl,111)
+    // }
+    //   const {data} = await reqCatagoryList({zflId})
+    //   // 子分类名称
+    //   // let singlezFl=_.filter(data,{'_id':zflId})
+    //   console.log(data)
+    
+    
   }
   render() {
     const data=this.props.location.state //路由传进来的数据
@@ -24,12 +60,6 @@ class ProductDetail extends Component {
       <List
         header={<div>房屋详情</div>}
         bordered
-        // dataSource={data}
-        // renderItem={(item,index) => (
-        //   <List.Item>
-        //     <Text  style={{fontSize:15,marginRight:'1rem'}}>{listTitle[index]}:</Text>{item}
-        //   </List.Item>
-        //   )}
         >
         <List.Item>
             <Text  style={listStyle}>{listTitle[0]}:</Text>{data.name}

@@ -28,8 +28,9 @@ class ProductAdd extends Component {
     e.preventDefault();
     const imgs = this.myRef.current.getImgs();//调用子组件的方法得到上传的图片名称
     const getInputData = this.richEditTextRef.current.getInputData();
+    console.log(getInputData)
+    // 获得input框的所有值
     this.props.form.validateFields(async (err, values) => {
-      console.log(values)
       if (!err) {
         this.setState({loading:true})
        
@@ -191,7 +192,7 @@ class ProductAdd extends Component {
             rules: [
               { type: 'array', required: true, message: '请输入选择分类!' },
             ],
-          })(<Cascader placeholder='请选择房屋分类' options={productClassList} loadData={this.productLoadData} />)}
+          })(<Cascader placeholder='请选择房屋分类' options={productClassList} loadData={this.productLoadData}/>)}
         </Form.Item>
         <Form.Item label="房屋图片">
           <UploadImg imgSrc={imgs} ref={this.myRef} />

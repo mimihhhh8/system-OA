@@ -18,7 +18,6 @@ class Product extends Component {
     pageNum: 1,
     selectValue: '1',
     productListSource: [],
-    saleList:[],
     total: 0,
     btnLoading: false,
     tableLoading: false,
@@ -91,15 +90,7 @@ class Product extends Component {
       this.getProductList(1)
     }
   }
-
-  // 搜索筛选框
-  selectHandleChange = selectValue => {
-    this.setState({
-      selectValue,
-      inputPlaceholder: selectValue === '1' ? '请输入名称' : '请输入描述',
-      inputValue: ''
-    });
-  };
+ 
   inputValue = (e) => {
     this.setState({
       inputValue: e.target.value
@@ -108,19 +99,11 @@ class Product extends Component {
 
   // 房屋列表
   getProductList = async (pageNum) => {
-    const { inputValue } = this.state
     this.pageNum = pageNum //保存全局，状态更新的时候能够定位到当前页
     this.setState({
       tableLoading: true,
     })
     let res;
-    // if (inputValue) { //搜索房屋列表
-    //   this.setState({
-    //     btnLoading: true,
-    //   })
-    //   res = await reqSearchProduct({ pageNum, pageSize: PAGE_SIZE })
-    // } else { //全部房屋列表
-    // }
       res = await reqFpList({ pageNum, pageSize: PAGE_SIZE })
       const { total, list } = res.data
           this.setState({
@@ -129,19 +112,6 @@ class Product extends Component {
             tableLoading: false,
             btnLoading: false
           })
-          
-    // if (res.status === 0 && list.length > 0) {
-    //   console.log(123)
-    //   // 格式化金额
-    //   list.forEach(item => {
-    //     item.price = formatNumber(item.price)
-    //   })
-    //   console.log(act_type.sale_name)
-    // }else{
-    //   this.setState({
-    //     tableLoading: false
-    //   })
-    // }
   }
   // 模态框--分配销售员
   handleOk = async e => {
@@ -163,50 +133,12 @@ class Product extends Component {
     })
   }
   render() {
-    const { tableLoading, productListSource, total, btnLoading, inputPlaceholder, inputValue } = this.state
+    const { tableLoading, productListSource } = this.state
     console.log(productListSource)
-    // const title = () => {
-    //   return (
-    //     <div>
-    //       <Select defaultValue="1"
-    //         style={{ width: '7rem' }}
-    //         onChange={this.selectHandleChange}>
-    //         <Option value="1">按名称搜索</Option>
-    //         <Option value="2">按描述搜索</Option>
-    //       </Select>
-    //       <Input style={{ width: 200, marginLeft: 6, marginRight: 6 }} placeholder={inputPlaceholder} onChange={this.inputValue} value={inputValue} />
-    //       <Button type='primary' style={{ transform: 'scale(1)' }} onClick={() => this.getProductList(1)} loading={btnLoading}>搜索</Button>
-    //       <Modal
-    //         title="Basic Modal"
-    //         visible={this.state.visible}
-    //         onOk={this.handleOk}
-    //         onCancel={() => { this.setState({ visible: false }) }}
-    //       >
-    //         <Radio.Group defaultValue="" buttonStyle="solid" onChange={this.handleSaleName}>
-    //           {this.state.saleList.map((item,index)=>(
-    //           <Radio.Button value={item.username} key={index}>{item.username}</Radio.Button>
-    //           ))}
-    //         </Radio.Group>
-    //       </Modal>
-    //     </div>
-    //   )
-    // }
-    // const addComponment = () => (
-    //   <span>
-    //   </span>
-    // )
-
     return (
       <Card>
         <Table size='small' dataSource={productListSource} columns={this.columns} rowKey={'_id'} bordered
           loading={tableLoading}
-          // pagination={{
-          //   current: this.pageNum,
-          //   total,
-          //   defaultPageSize: PAGE_SIZE,
-          //   showQuickJumper: true,
-          //   onChange: this.getProductList,
-          // }}
         />
       </Card>
     );

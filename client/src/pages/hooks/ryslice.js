@@ -9,9 +9,6 @@ import _ from "lodash"
 const { Option } = Select;
 const { Text } = Typography;
 const PAGE_SIZE = 6
-const btnStyle = {
-  marginLeft: '0.5rem'
-}
 class Product extends Component {
   state = {
     apply_id:"",//当前列表某一行对应的id
